@@ -1,6 +1,6 @@
 #!/bin/bash
 
-program="p_t"
+program="port_simulator"
 folder="build"
 file="$folder/$program"
 

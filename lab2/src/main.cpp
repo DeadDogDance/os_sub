@@ -2,7 +2,6 @@
 #include <iostream>
 #include <sstream>
 
-
 int main(int argc, char *argv[]) {
 
   int pause_time = 5;
@@ -26,13 +25,14 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  std::cout << "Process start, waiting " << pause_time << " seconds" << std::endl;
+  std::cout << "Process start, waiting " << pause_time << " seconds"
+            << std::endl;
 
-  #ifdef _WIN32
-    Sleep(pause_time * 1000);
-  #else
-    sleep(pause_time);
-  #endif
+#ifdef _WIN32
+  Sleep(pause_time * 1000);
+#else
+  sleep(pause_time);
+#endif
 
   std::cout << "Woke up" << std::endl;
 
@@ -40,4 +40,3 @@ int main(int argc, char *argv[]) {
   std::cout << "Process exited with code: " << exitCode << std::endl;
   return 0;
 }
-

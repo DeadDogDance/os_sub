@@ -1,6 +1,6 @@
 #!/bin/bash
 
-program="p_t"
+program="hello"
 folder="build"
 file="$folder/$program"
 

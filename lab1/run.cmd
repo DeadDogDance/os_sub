@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-set "program=p_t.exe"
+set "program=hello.exe"
 set "folder=\build"
 set "file=%folder%\%program%"
 

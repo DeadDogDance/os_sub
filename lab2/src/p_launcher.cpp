@@ -1,8 +1,7 @@
 #include "p_launcher.hpp"
 #include <iostream>
 
-ProcessLauncher::ProcessLauncher() {
-}
+ProcessLauncher::ProcessLauncher() {}
 
 ProcessLauncher::~ProcessLauncher() {
 #ifdef _WIN32
@@ -17,13 +16,14 @@ bool ProcessLauncher::run(const char *command) {
   ZeroMemory(&si, sizeof(si));
   si.cb = sizeof(si);
 
-  if (!CreateProcessA(NULL, (LPSTR)command, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+  if (!CreateProcessA(NULL, (LPSTR)command, NULL, NULL, FALSE, 0, NULL, NULL,
+                      &si, &pi)) {
     std::cerr << "Failed to start process: " << GetLastError() << std::endl;
     return false;
   }
 #else
   pid = fork();
-  switch(pid) {
+  switch (pid) {
   case -1:
     perror("fork");
     return false;
@@ -50,4 +50,3 @@ int ProcessLauncher::waitForExit() {
   return -1;
 #endif
 }
-

@@ -1,8 +1,4 @@
 #!/bin/bash
 
-cd hello_world
-
-cmake -S . -B ./build
+cmake -S ./src . -B ./build
 cmake --build ./build
-
-cd ..

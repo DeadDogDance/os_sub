@@ -9,3 +9,5 @@
 *.out
 *.app
 build/
+logs/
+temp/

@@ -1,10 +1,10 @@
 #pragma once
 #ifdef __WIN32
-#include<windows.h>
+#include <windows.h>
 #else // UNIX:
-#include <unistd.h>
-#include <sys/wait.h>
 #include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #endif
 
 class ProcessLauncher {
@@ -12,11 +12,11 @@ public:
   ProcessLauncher();
   ~ProcessLauncher();
 
-  bool run(const char* command);
+  bool run(const char *command);
 
   int waitForExit();
 
-  private:
+private:
 #ifdef __WIN32
   PROCESS_INFORMATION pi;
 #else

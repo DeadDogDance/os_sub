@@ -1,14 +1,15 @@
 @echo off
 setlocal
 
-set "folder=logger\build"
-set "file=%folder%\logger.exe"
+set "program=service.exe"
+set "folder=build"
+set "file=%folder%\%program%"
 
 if exist "%folder%" (
     if exist "%file%" (
         "%file%" %*
     ) else (
-        echo Error: File "logger.exe" does not exist in "%folder%"
+        echo Error: File "%program%" does not exist in "%folder%"
         exit /b 1
     )
 ) else (

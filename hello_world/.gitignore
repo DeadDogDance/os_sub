@@ -1,0 +1,10 @@
+# Object files
+*.o
+*.obj
+*.elf
+*.a
+*.so
+*.dll
+*.exe
+*.out
+*.app

@@ -10,11 +10,12 @@ OBJS := $(SRCS:.c=.o)
 
 all: $(PROGRAM)
 
+$(PROGRAM): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o ../$@
+
 %.o: %.c $(HDRS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(PROGRAM): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
 
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@

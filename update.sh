@@ -13,7 +13,7 @@ case "$1" in
     git fetch -v
     ;;
   *)
-    echo "No choice provided. Fetching..."
+    echo "No choice provided. Fetching and pulling..."
     git fetch -v
     git pull -v origin main
     ;;

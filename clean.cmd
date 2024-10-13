@@ -2,6 +2,6 @@
 
 cd hello_world
 
-del -q build
+rd /s build
 
 cd ..

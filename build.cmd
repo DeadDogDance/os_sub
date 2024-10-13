@@ -2,7 +2,7 @@
 
 cd hello_world
 
-cmake -S . -B ./build
+cmake -G "MinGW Makefiles" -S . -B ./build
 cmake --build ./build
 
 cd ..

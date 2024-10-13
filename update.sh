@@ -15,5 +15,6 @@ case "$1" in
   *)
     echo "No choice provided. Fetching..."
     git fetch -v
+    git pull -v origin main
     ;;
 esac

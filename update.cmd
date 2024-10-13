@@ -10,6 +10,7 @@ if "%1"=="pull" (
 ) else (
     echo No choice provided. Fetching...
     git fetch -v
+    git pull -v origin main
 )
 
 endlocal

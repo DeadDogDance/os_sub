@@ -2,6 +2,7 @@
 
 cd hello_world
 
-make 
+cmake -S . -B ./build
+cmake --build ./build
 
 cd ..

@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include "hello_world.h"
+#include <iostream>
+#include "hello.h"
 
 int main(void) {
 

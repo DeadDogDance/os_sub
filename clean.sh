@@ -2,6 +2,6 @@
 
 cd hello_world
 
-make clean
+rm -rf build
 
 cd ..

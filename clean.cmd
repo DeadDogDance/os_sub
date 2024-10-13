@@ -2,6 +2,6 @@
 
 cd hello_world
 
-make clean
+del -q build
 
 cd ..

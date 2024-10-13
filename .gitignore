@@ -8,4 +8,4 @@
 *.exe
 *.out
 *.app
-touhou/
+build/

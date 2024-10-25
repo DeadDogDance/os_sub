@@ -2,14 +2,11 @@
 #include <iostream>
 #include <sstream>
 
-static int pause_time = 5;
-
-#ifdef __WIN32
-  pause_time *= 1000;
-#endif
-
 
 int main(int argc, char *argv[]) {
+
+  int pause_time = 5;
+
   if (argc < 2) {
     std::cerr << "Usage: " << argv[0] << " <command>" << std::endl;
     return 1;
@@ -30,7 +27,13 @@ int main(int argc, char *argv[]) {
   }
 
   std::cout << "Process start, waiting " << pause_time << " seconds" << std::endl;
-  sleep(pause_time);
+
+  #ifdef _WIN32
+    Sleep(pause_time * 1000);
+  #else
+    sleep(pause_time);
+  #endif
+
   int exitCode = launcher.waitForExit();
   std::cout << "Process exited with code: " << exitCode << std::endl;
   return 0;

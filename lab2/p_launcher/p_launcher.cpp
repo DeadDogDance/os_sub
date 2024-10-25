@@ -5,10 +5,22 @@ ProcessLauncher::ProcessLauncher() {
 }
 
 ProcessLauncher::~ProcessLauncher() {
+#ifdef _WIN32
+  CloseHandle(pi.hProcess);
+  CloseHandle(pi.hThread);
+#endif
 }
 
 bool ProcessLauncher::run(const char *command) {
-#ifdef _WIN32
+#ifdef __WIN32
+  STARTUPINFO si;
+  ZeroMemory(&si, sizeof(si));
+  si.cb = sizeof(si);
+
+  if (!CreateProcessA(NULL, (LPSTR)command, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+    std::cerr << "Failed to start process: " << GetLastError() << std::endl;
+    return false;
+  }
 #else
   pid = fork();
   switch(pid) {
@@ -24,7 +36,11 @@ bool ProcessLauncher::run(const char *command) {
 }
 
 int ProcessLauncher::waitForExit() {
-#ifdef _WIN32
+#ifdef __WIN32
+  WaitForSingleObject(pi.hProcess, INFINITE);
+  DWORD exitCode;
+  GetExitCodeProcess(pi.hProcess, &exitCode);
+  return static_cast<int>(exitCode);
 #else
   int status;
   waitpid(pid, &status, 0);

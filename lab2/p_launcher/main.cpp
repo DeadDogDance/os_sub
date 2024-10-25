@@ -34,6 +34,8 @@ int main(int argc, char *argv[]) {
     sleep(pause_time);
   #endif
 
+  std::cout << "Woke up" << std::endl;
+
   int exitCode = launcher.waitForExit();
   std::cout << "Process exited with code: " << exitCode << std::endl;
   return 0;

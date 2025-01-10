@@ -1,7 +1,7 @@
 $Script:toInstall = @()
 $Script:toUpgrade = @()
 
-[string[]]$Script:developmentApps = "git", "gh", "make", "cmake", "mingw"
+[string[]]$Script:developmentApps = "git", "gh", "make", "cmake", "mingw", "vscode"
 
 # Allows the script to write out lines in varying colors
 function WriteLine($foregroundColor) {

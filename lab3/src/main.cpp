@@ -18,9 +18,9 @@
 #else
 #include <fcntl.h>
 #include <semaphore.h>
+#include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <sys/mman.h>
 #endif
 
 template <typename T> class SharedMemory;
@@ -88,7 +88,8 @@ public:
       }
       is_new_ = true;
     }
-    memory_ = static_cast<T *> (MapViewOfFile(handle_, FILE_MAP_ALL_ACCESS, 0, 0, size_));
+    memory_ = static_cast<T *>(
+        MapViewOfFile(handle_, FILE_MAP_ALL_ACCESS, 0, 0, size_));
     if (!memory_) {
       CloseHandle(handle_);
       throw std::runtime_error("Failed to map shared memory");
@@ -361,6 +362,7 @@ void spawnChildren() {
 void userInput() {
   while (isRunning.load()) {
 
+    std::cout << "input, pls" << std::endl;
     std::string input;
     std::getline(std::cin, input);
 
@@ -517,7 +519,7 @@ int main() {
     if (isMainProcess && !isMainThreadsStarted) {
       loggerThread = std::thread(logCount);
       spawnChildrenThread = std::thread(spawnChildren);
-      // userInputThread = std::thread(userInput);
+      userInputThread = std::thread(userInput);
       isMainThreadsStarted = true;
     }
   }

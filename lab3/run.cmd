@@ -2,7 +2,7 @@
 setlocal
 
 set "program=logger.exe"
-set "folder=\build"
+set "folder=build"
 set "file=%folder%\%program%"
 
 if exist "%folder%" (

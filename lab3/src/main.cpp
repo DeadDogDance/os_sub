@@ -10,7 +10,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include <sys/mman.h>
 #include <thread>
 #include <unistd.h>
 
@@ -21,6 +20,7 @@
 #include <semaphore.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <sys/mman.h>
 #endif
 
 template <typename T> class SharedMemory;
@@ -88,7 +88,7 @@ public:
       }
       is_new_ = true;
     }
-    memory_ = MapViewOfFile(handle_, FILE_MAP_ALL_ACCESS, 0, 0, size_);
+    memory_ = static_cast<T *> (MapViewOfFile(handle_, FILE_MAP_ALL_ACCESS, 0, 0, size_));
     if (!memory_) {
       CloseHandle(handle_);
       throw std::runtime_error("Failed to map shared memory");
@@ -169,14 +169,13 @@ public:
   NamedSemaphore(const std::string &name, unsigned int initialCount = 1)
       : name_(name), is_new_(false) {
 #ifdef _WIN32
-    std::wstring wName(name.begin(), name.end());
 
     // Try to open an existing semaphore
-    semaphore_ = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE, wName.c_str());
+    semaphore_ = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE, name.c_str());
     if (!semaphore_) {
       // If it doesn't exist, create a new semaphore
       semaphore_ =
-          CreateSemaphore(nullptr, initialCount, LONG_MAX, wName.c_str());
+          CreateSemaphore(nullptr, initialCount, LONG_MAX, name.c_str());
       if (semaphore_ && GetLastError() != ERROR_ALREADY_EXISTS) {
         is_new_ = true;
       }
@@ -247,7 +246,7 @@ private:
 
 void create_log_directory() {
 #ifdef _WIN32
-  _mkdir(LOG_DIR);
+  mkdir(LOG_DIR);
 #else
   mkdir(LOG_DIR, 0777);
 #endif

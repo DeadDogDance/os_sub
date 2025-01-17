@@ -37,7 +37,7 @@ struct Measurement {
 
 void create_log_directory() {
 #ifdef _WIN32
-  _mkdir(LOG_DIR);
+  mkdir(LOG_DIR);
 #else
   mkdir(LOG_DIR, 0777);
 #endif
@@ -51,6 +51,32 @@ HANDLE open_serial_port(const std::string &port_name) {
     std::cerr << "Error opening serial port" << std::endl;
     exit(EXIT_FAILURE);
   }
+  DCB dcbSerialParams = {0};
+  if (!GetCommState(hSerial, &dcbSerialParams)) {
+    fprintf(stderr, "Error unable to get current serial port parameters\n");
+    CloseHandle(hSerial);
+    exit(EXIT_FAILURE);
+  }
+  dcbSerialParams.BaudRate = CBR_9600;
+  dcbSerialParams.ByteSize = 8;
+  dcbSerialParams.StopBits = ONESTOPBIT;
+  dcbSerialParams.Parity = NOPARITY;
+
+  if (!SetCommState(hSerial, &dcbSerialParams)) {
+    fprintf(stderr, "Error unable to set current serial port parameters\n");
+    CloseHandle(hSerial);
+    exit(EXIT_FAILURE);
+  }
+
+  COMMTIMEOUTS timeouts = {0};
+  timeouts.ReadIntervalTimeout = 50;
+  timeouts.ReadTotalTimeoutMultiplier = 10;
+  timeouts.ReadTotalTimeoutConstant = 500;
+  timeouts.WriteTotalTimeoutMultiplier = 10;
+  timeouts.WriteTotalTimeoutConstant= 500;
+  
+  SetCommTimeouts(hSerial, &timeouts);
+
   return hSerial;
 }
 
@@ -61,6 +87,8 @@ bool read_temperature(HANDLE hSerial, double &temperature) {
   DWORD bytesRead;
   if (ReadFile(hSerial, buffer, sizeof(buffer) - 1, &bytesRead, NULL)) {
     buffer[bytesRead] = '\0';
+    printf("bytes read: %d\n", bytesRead);
+    printf("Read: %s\n", buffer);
     temperature = atof(buffer);
     return true;
   }
